@@ -18,21 +18,6 @@
 #include <codecvt>
 #include <experimental/filesystem>
 
-#include <opencv2/core/core.hpp>
-#include "opencv2/imgproc/imgproc.hpp"
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/opencv.hpp>
-#include <opencv2/opencv.hpp>
-
-
-// ----------------------------VTK Triangulation----------------------
-#include "vtk-9.0/vtkSmartPointer.h"
-#include "vtk-9.0/vtkCardinalSpline.h"
-#include "vtk-9.0/vtkPoints.h"
-#include "vtk-9.0/vtkPolyData.h"
-#include "vtk-9.0/vtkDoubleArray.h"
-//---------------------------------------------------------------------
-
 #include "shape.h"
 
 using namespace std;
@@ -43,7 +28,6 @@ public:
 	Circle();
 	//custom constructor
 	Circle(double radius, int numPoints, double depth);
-
 	~Circle();
 
 private:

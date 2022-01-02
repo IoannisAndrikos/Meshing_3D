@@ -24,15 +24,6 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/opencv.hpp>
 
-
-// ----------------------------VTK Triangulation----------------------
-#include "vtk-9.0/vtkSmartPointer.h"
-#include "vtk-9.0/vtkCardinalSpline.h"
-#include "vtk-9.0/vtkPoints.h"
-#include "vtk-9.0/vtkPolyData.h"
-#include "vtk-9.0/vtkDoubleArray.h"
-//---------------------------------------------------------------------
-
 #include "shape.h"
 
 using namespace std;
@@ -41,6 +32,8 @@ using namespace cv;
 class Rectangle : public shape {
 public:
 	Rectangle();
+	//custom constructor
+	Rectangle(double fistEdgeSize, double secondEdgeSize, double depth);
 	~Rectangle();
 
 private:

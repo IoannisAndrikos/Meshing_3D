@@ -11,11 +11,25 @@ geometry::geometry(shapeType type, string pathToSave) {
 }
 
 void geometry::createPointCloud(shapeType type) {
-	for (double i = 0; i < this->depth; i += this->zAxisDist) {
+	for (double i = 0; i < this->objectWidth; i += get_zAxisDist(type)) {
 		shape sh = createShape(type, i);
 		this->pointCloud.push_back(sh.getPoints());
 	}
 }
+
+double geometry::get_zAxisDist(shapeType type) {
+	switch (type)
+	{
+	case geometry::circle:
+		return 0.1;
+	case geometry::rectangle:
+	case geometry::triangle:
+		return 5;
+	default:
+		return 1;
+	}
+}
+
 
 //this design pattern is called "factory"
 shape geometry::createShape(shapeType type, double depth) {
@@ -24,7 +38,7 @@ shape geometry::createShape(shapeType type, double depth) {
 	case shapeType::circle:
 		return *new Circle(1, 100, depth);
 	case shapeType::rectangle:
-		return *new Rectangle();
+		return *new Rectangle(1, 1, depth);
 	case shapeType::triangle:
 		return *new Triangle();
 	default:
