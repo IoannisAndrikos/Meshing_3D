@@ -11,8 +11,7 @@ geometry::geometry(shapeType type, string pathToSave) {
 }
 
 void geometry::createPointCloud(shapeType type) {
-
-	for (double i = 0; i < 10; i += 0.1) {
+	for (double i = 0; i < this->depth; i += this->zAxisDist) {
 		shape sh = createShape(type, i);
 		this->pointCloud.push_back(sh.getPoints());
 	}

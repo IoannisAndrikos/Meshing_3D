@@ -70,6 +70,9 @@ private:
 	//variables
 	vector<vector<Point3f>> pointCloud;
 	vtkSmartPointer<vtkPolyData> object3D;
+	
+	const int depth = 10;
+	const double zAxisDist = 0.1;
 
 protected:
 

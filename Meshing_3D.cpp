@@ -3,13 +3,8 @@
 
 #include <iostream>
 
-#include "geometry.h"
 
 int main()
 {
-
-    geometry* geo = new geometry(geometry::shapeType::circle, "C:/Users/Legion Y540/Desktop/cylinder.stl");
-
-    vector<vector<Point3f>> points = geo->getPointCloud();
 
 }
