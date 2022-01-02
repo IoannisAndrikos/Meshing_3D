@@ -4,18 +4,19 @@ Circle::Circle() {}
 Circle::~Circle() {}
 
 
-Circle::Circle(int perimeter, int numPoints) {
+Circle::Circle(double radius, int numPoints, double depth) {
 
-    int x, y;
-    int length = 50;
+    float x, y;
     float angle = 0.0;
-    float angle_stepsize = 0.1;
-
+    float angle_stepsize = 360/numPoints;
     // go through all angles from 0 to 2 * PI radians
-    while (angle < 2 * CV_PI)
+    while (angle < 360)
     {
-        // calculate x, y from a vector with known length and angle
-        x = length * cos(angle);
-        y = length * sin(angle);
+       // calculate x, y from a vector with known length and angle
+       x = radius * cos(angle * CV_PI / 180);
+       y = radius * sin(angle * CV_PI / 180);
+  
+       this->points.push_back(Point3f(x, y, depth));
+       angle += angle_stepsize;
     }
 }

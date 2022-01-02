@@ -41,20 +41,14 @@ public:
 	shape();
 	~shape();
 
-	enum shapeType
-	{
-		circle,
-		rectangle,
-		triangle,
-	};
-
+	vector<Point3f> getPoints() {
+		return this->points;
+	}
 
 private:
-	vector<Point2f> points;
-
-
+	
 protected:
-
+	vector<Point3f> points;
 };
 
 #endif #pragma once

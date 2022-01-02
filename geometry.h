@@ -27,10 +27,10 @@
 
 // ----------------------------VTK Triangulation----------------------
 #include "vtk-9.0/vtkSmartPointer.h"
-#include "vtk-9.0/vtkCardinalSpline.h"
+#include "vtk-9.0/vtkTriangle.h"
 #include "vtk-9.0/vtkPoints.h"
 #include "vtk-9.0/vtkPolyData.h"
-#include "vtk-9.0/vtkDoubleArray.h"
+#include "vtk-9.0/vtkSTLWriter.h"
 //---------------------------------------------------------------------
 
 #include "shape.h"
@@ -41,17 +41,35 @@
 using namespace std;
 using namespace cv;
 
-
 class geometry {
 public:
+	enum shapeType
+	{
+		circle,
+		rectangle,
+		triangle,
+	};
+
 	geometry(); 
+	//custom constructor
+	geometry(shapeType type, string pathToSave);
 	~geometry();
 
-	shape createShape(shape::shapeType type);
 	
-
+	vector<vector<Point3f>> getPointCloud() {
+		return this->pointCloud;
+	}
+	
 private:
-	
+	//functions
+	void triangulate();
+	void createPointCloud(shapeType type);
+	void saveObject3D(string path);
+	shape createShape(shapeType type, double depth);
+
+	//variables
+	vector<vector<Point3f>> pointCloud;
+	vtkSmartPointer<vtkPolyData> object3D;
 
 protected:
 

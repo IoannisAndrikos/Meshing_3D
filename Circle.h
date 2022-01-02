@@ -42,7 +42,7 @@ class Circle : public shape {
 public:
 	Circle();
 	//custom constructor
-	Circle(int perimeter, int numPoints);
+	Circle(double radius, int numPoints, double depth);
 
 	~Circle();
 
