@@ -3,8 +3,13 @@
 
 #include <iostream>
 
+#include "shape.h"
+#include "Circle.h"
+
 int main()
 {
+
+    shape* sh = new Circle();
     std::cout << "Hello World!\n";
 }
 
