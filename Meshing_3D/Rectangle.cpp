@@ -10,5 +10,4 @@ Rectangle::Rectangle(double fistEdgeSize, double secondEdgeSize, double depth) {
 	this->points.push_back(Point3f(fistEdgeSize / 2, -secondEdgeSize / 2, depth));
 	this->points.push_back(Point3f(-fistEdgeSize / 2, -secondEdgeSize / 2, depth));
 	this->points.push_back(Point3f(-fistEdgeSize / 2, secondEdgeSize / 2, depth));
-
 }

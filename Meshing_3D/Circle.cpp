@@ -4,11 +4,14 @@ Circle::Circle() {}
 Circle::~Circle() {}
 
 
-Circle::Circle(double radius, int numPoints, double depth) {
-
-    float x, y;
-    float angle = 0.0;
-    float angle_stepsize = 360/numPoints;
+Circle::Circle(double diameter, double depth) {
+     /*
+     * Create a circle using the mathematical formula bellow
+     */
+    double radius = diameter / 2;
+    double x, y;
+    double angle = 0.0;
+    double angle_stepsize = 1;
     // go through all angles from 0 to 2 * PI radians
     while (angle < 360)
     {
@@ -20,3 +23,6 @@ Circle::Circle(double radius, int numPoints, double depth) {
        angle += angle_stepsize;
     }
 }
+
+
+
