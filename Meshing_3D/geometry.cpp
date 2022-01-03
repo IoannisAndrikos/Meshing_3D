@@ -4,14 +4,32 @@ geometry::geometry() {}
 geometry::~geometry() {}
 
 
-geometry::geometry(shapeType type, double height, string pathToSave) {
-	createPointCloud(type, height);
-	triangulate();
-	if (this->object3D != NULL) {
-		saveObject3D(pathToSave);
-		calculateVolume();
+string geometry::createGeometry(shapeType type, double height, string pathToSave) {
+	string message = checkIfPathExists(pathToSave);
+	if (message._Equal(this->success)) {
+		createPointCloud(type, height);
 	}
+	else {
+		return message;
+	}
+	message = triangulate();
+	if (message._Equal(this->success)) {
+		calculateVolume();
+		saveObject3D(pathToSave);
+	}
+	return message;
 }
+
+string geometry::checkIfPathExists(string path) {
+	/*
+	Check if given path exists
+	*/
+	string parentFolder = experimental::filesystem::path(path).parent_path().generic_string();
+	struct stat buffer; 
+	return stat(parentFolder.c_str(), &buffer) == 0 ? success : "The given path is not correct";
+}
+
+
 
 void geometry::createPointCloud(shapeType type, double height) {
 	/* here we create a shape of the selected type. The shape contain x, y, z coordinate points
@@ -55,7 +73,7 @@ shape geometry::createShape(shapeType type, double depth) {
 	}
 }
 
-void geometry::triangulate() {
+string geometry::triangulate() {
 	/* this function triangulate on object given the point cloud of it.
 	* Briefly, this method is achieved by connecting the opposite points 
 	between two coherent contours of equal number of 3D points
@@ -108,13 +126,14 @@ void geometry::triangulate() {
 			object3D = vtkSmartPointer<vtkPolyData>::New();
 			object3D->SetPolys(triangles);
 			object3D->SetPoints(points);
+			return this->success;
 		}
 		else {
-			object3D = NULL;
+			return "Something went wrong during the triangulation process";
 		}
 	}
 	catch (Exception ex) {
-		object3D = NULL;
+		return "Something went wrong during the triangulation process";
 	}
 }
 

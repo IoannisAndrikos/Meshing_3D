@@ -6,7 +6,8 @@
 #define _SCL_SECURE_NO_WARNINGS
 
 #include <stdlib.h>
-
+#include <experimental/filesystem>
+#include <sys/stat.h>
 // ----------------------------OpenCv----------------------
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
@@ -37,9 +38,9 @@ public:
 	};
 
 	geometry(); 
-	//custom constructor
-	geometry(shapeType type, double height, string pathToSave);
 	~geometry();
+
+	string createGeometry(shapeType type, double height, string pathToSave);
 
 	vector<vector<Point3f>> getPointCloud() {
 		return this->pointCloud;
@@ -56,23 +57,24 @@ public:
 	
 private:
 	//functions
-	void triangulate();
+	string triangulate();
 	void createPointCloud(shapeType type, double height);
 	void saveObject3D(string path);
 	void calculateVolume();
 	shape createShape(shapeType type, double depth);
+	string checkIfPathExists(string path);
 
 	//variables
 	vector<vector<Point3f>> pointCloud;
 	vtkSmartPointer<vtkPolyData> object3D;
 
-private:
 	double getMeshDensity(shapeType type);
 
 	//variables
 	double objectVolume = 0;
 
 protected:
+	string success = "success";
 
 };
 
