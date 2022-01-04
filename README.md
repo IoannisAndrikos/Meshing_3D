@@ -7,8 +7,8 @@
 
 **Third Party libraries:**
 
-	1. **OpenCV** -> manage efficiently the 2D and 3D points
-	1. **Visualization toolkit (VTK)** -> perform computational geometry operations
+	1. OpenCV -> manage efficiently the 2D and 3D points
+	2. Visualization toolkit (VTK) -> perform computational geometry operations
 
 **TODOs:**
 
