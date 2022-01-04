@@ -13,6 +13,6 @@
 **TODOs:**
 
 	1. Install both OpenCV and VTK
-	2. Link soluntion procejts to the them
+	2. Link solution projects to them
 	3. Change the paths in UnitTesting/test.cpp with your local environment paths
 	4. Run tests
