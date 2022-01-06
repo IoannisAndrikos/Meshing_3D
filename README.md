@@ -1,9 +1,10 @@
 ## Meshing 3D.
 
-**Projects**
+**Projects/components**
 
 	1. all functionalities are in Meshing_3D (is a static library .lib file)
 	2. the unit test are in UnitTesting (is an executable .exe file)
+	3. all the external dependencies are included into thrird_party_libraries
 
 **Third Party libraries:**
 
@@ -12,7 +13,10 @@
 
 **TODOs:**
 
-	1. Install both OpenCV and VTK
-	2. Link solution projects to them
-	3. Change the paths in UnitTesting/test.cpp with your local environment paths
+	1. Set to enviroment variables Path the OpenCV and VTK dlls path:
+		a. ...Meshing_3D\third_party_libraries\opencv\x64\vc15\bin
+		b. ...Meshing_3D\third_party_libraries\vtk\bin
+	3. Change the "myPath" value in UnitTesting/test.cpp (line:6) with a path of your local enviroment
 	4. Run tests
+	5. Three 3D objects with the names: cylinder.stl, bar.stl, triangular.stl will be generated in path thah you set.
+	6. Enjoy
