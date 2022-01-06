@@ -17,12 +17,21 @@ using namespace cv;
 class shape {
 public:
 	shape();
+	//custom cinstructor
 	~shape();
 
 	//getters
 	vector<Point3f> getPoints() {
 		return this->points;
 	}
+
+	void loadPoints(vector<vector<Point3f>>& pointCloud) {
+		pointCloud.push_back(this->points);
+
+		//release memory. The points no longer need after loading
+		vector<Point3f>().swap(this->points);
+	}
+
 
 private:
 	

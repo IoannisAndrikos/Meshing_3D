@@ -2,4 +2,3 @@
 
 shape::shape() {}
 shape::~shape() {}
-

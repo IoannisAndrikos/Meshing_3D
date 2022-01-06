@@ -22,7 +22,8 @@ string geometry::createGeometry(shapeType type, double height, string pathToSave
 
 string geometry::checkIfPathExists(string path) {
 	/*
-	Check if given path exists
+	Check if the given path exists
+	If not return failure message
 	*/
 	string parentFolder = experimental::filesystem::path(path).parent_path().generic_string();
 	struct stat buffer; 
@@ -32,16 +33,19 @@ string geometry::checkIfPathExists(string path) {
 
 
 void geometry::createPointCloud(shapeType type, double height) {
-	/* here we create a shape of the selected type. The shape contain x, y, z coordinate points
+	/* 
+	Create a shape of the selected type. The shape contains x, y, z points
 	*/
 	for (double i = 0; i <= height - 1; i += getMeshDensity(type)) {
 		shape sh = createShape(type, i);
-		this->pointCloud.push_back(sh.getPoints());
+		sh.loadPoints(this->pointCloud);
 	}
 }
 
 double geometry::getMeshDensity(shapeType type) {
-	/* curved objects need high mesh density to be reconstructed (e.g cylinder)
+	/*
+	Select the Mesh density according to the type of the shape.
+	Curved objects need high mesh density to be reconstructed (e.g cylinder)
 	not curved objects need less mesh deshity to be reconstructed (e.g. bar, triangular object)
 	*/
 	switch (type)
@@ -57,8 +61,8 @@ double geometry::getMeshDensity(shapeType type) {
 
 shape geometry::createShape(shapeType type, double depth) {
 	/*
-	* this design pattern is called "factory"
-	we use this to manage better the objects construction
+	This design pattern is called "factory"
+	we use this to manage better the construction of the objects
 	*/
 	switch (type)
 	{
@@ -74,9 +78,17 @@ shape geometry::createShape(shapeType type, double depth) {
 }
 
 string geometry::triangulate() {
-	/* this function triangulate on object given the point cloud of it.
-	* Briefly, this method is achieved by connecting the opposite points 
-	between two coherent contours of equal number of 3D points
+	/* 
+	Triangulate an object given the point cloud of it.
+	Briefly, this method is achieved by connecting (faces/triangulars) the opposite points 
+	between two continious contours that contain equal number of x,y,z points
+	In fact, 4 points needs 2 faces to be connected
+	e.g. Lets suppose that we have 4 points: P1, P2, P3, P4
+		 P1 and P2 belong to the same set and P3 and P4 to another same set.
+		 P1 is opposite to P3 while P2 is opposite to P4
+		 Therefore, we need two faces: F1, F2
+		 The F1 is defined as following: P1, P2, P3
+		 The F2 is defined as following: P2, P3, P4
 	*/
 	try {
 		if (!this->pointCloud.empty()) {
@@ -91,36 +103,34 @@ string geometry::triangulate() {
 
 			for (int i = 0; i < this->pointCloud.size() - 1; i++) {
 
-				//connect the last point of the i-th contour with the first point of the i+1-th contour 
-				vtkSmartPointer<vtkTriangle> triangle_4 = vtkSmartPointer<vtkTriangle>::New();
-				triangle_4->GetPointIds()->SetId(0, i * numPoints);
-				triangle_4->GetPointIds()->SetId(1, (i + 1) * numPoints - 1);
-				triangle_4->GetPointIds()->SetId(2, (i + 1) * numPoints);
-				triangles->InsertNextCell(triangle_4);
+				//connect the last two points of the i-th contour with the first point of conntour (i+1)-th contour
+				vtkSmartPointer<vtkTriangle> triangle_1 = vtkSmartPointer<vtkTriangle>::New();
+				triangle_1->GetPointIds()->SetId(0, i * numPoints);
+				triangle_1->GetPointIds()->SetId(1, (i + 1) * numPoints - 1);
+				triangle_1->GetPointIds()->SetId(2, (i + 1) * numPoints);
+				triangles->InsertNextCell(triangle_1);
 
 				//process for the middle points
-				//connect the opposite points of each contour point set
 				for (int j = 0; j < numPoints - 1; j++) {
-					vtkSmartPointer<vtkTriangle> triangle_1 = vtkSmartPointer<vtkTriangle>::New();
-					triangle_1->GetPointIds()->SetId(2, i * numPoints + j);
-					triangle_1->GetPointIds()->SetId(1, i * numPoints + j + 1);
-					triangle_1->GetPointIds()->SetId(0, i * numPoints + j + numPoints);
-
 					vtkSmartPointer<vtkTriangle> triangle_2 = vtkSmartPointer<vtkTriangle>::New();
+					triangle_2->GetPointIds()->SetId(2, i * numPoints + j);
+					triangle_2->GetPointIds()->SetId(1, i * numPoints + j + 1);
 					triangle_2->GetPointIds()->SetId(0, i * numPoints + j + numPoints);
-					triangle_2->GetPointIds()->SetId(1, i * numPoints + j + numPoints + 1);
-					triangle_2->GetPointIds()->SetId(2, i * numPoints + j + 1);
-
-					triangles->InsertNextCell(triangle_1);
 					triangles->InsertNextCell(triangle_2);
+
+					vtkSmartPointer<vtkTriangle> triangle_3 = vtkSmartPointer<vtkTriangle>::New();
+					triangle_3->GetPointIds()->SetId(0, i * numPoints + j + numPoints);
+					triangle_3->GetPointIds()->SetId(1, i * numPoints + j + numPoints + 1);
+					triangle_3->GetPointIds()->SetId(2, i * numPoints + j + 1);
+					triangles->InsertNextCell(triangle_3);
 				}
 
-				//connect the last point of the i-th contour with the first point of the i+1-th contour 
-				vtkSmartPointer<vtkTriangle> triangle_3 = vtkSmartPointer<vtkTriangle>::New();
-				triangle_3->GetPointIds()->SetId(2, i * numPoints + numPoints - 1);
-				triangle_3->GetPointIds()->SetId(1, i * numPoints + numPoints);
-				triangle_3->GetPointIds()->SetId(0, i * numPoints + 2 * numPoints - 1);
-				triangles->InsertNextCell(triangle_3);
+				//connect the first two points of the (i+1)-th contour with the last point of the i-th contour
+				vtkSmartPointer<vtkTriangle> triangle_4 = vtkSmartPointer<vtkTriangle>::New();
+				triangle_4->GetPointIds()->SetId(2, i * numPoints + numPoints - 1);
+				triangle_4->GetPointIds()->SetId(1, i * numPoints + numPoints);
+				triangle_4->GetPointIds()->SetId(0, i * numPoints + 2 * numPoints - 1);
+				triangles->InsertNextCell(triangle_4);
 			}
 
 			object3D = vtkSmartPointer<vtkPolyData>::New();
@@ -138,7 +148,8 @@ string geometry::triangulate() {
 }
 
 void geometry::saveObject3D(string path) {
-	/*this function save the 3D object as an STL file into a given path
+	/*
+	Save the 3D object as an STL file into a given path
 	*/
 	vtkSmartPointer<vtkSTLWriter> writer = vtkSmartPointer<vtkSTLWriter>::New();
 	writer->SetFileName(path.c_str());
@@ -147,7 +158,8 @@ void geometry::saveObject3D(string path) {
 }
 
 void geometry::calculateVolume() {
-	/*this caclulates the volume of the 3D object
+	/*
+	Caclulate the volume of the 3D object
 	*/
 	vtkSmartPointer<vtkMassProperties> massProperties = vtkSmartPointer<vtkMassProperties>::New();
 	massProperties->SetInputData(this->object3D);

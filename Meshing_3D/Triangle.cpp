@@ -4,8 +4,10 @@ Triangle::Triangle() {}
 Triangle::~Triangle() {}
 
 Triangle::Triangle(double edgeSize, double depth) {
+
     /*
-    * the implementation bellow is based on the follwing link :
+    Three points are enough to define a triangle
+    The implementation bellow is based on the follwing link :
     https://en.wikipedia.org/wiki/Equilateral_triangle#/media/File:Equilateral_triangle_construction.svg
     */
 

@@ -2,13 +2,10 @@
 
 #include "../Meshing_3D/geometry.h"
 
-
+//Change the path here with a path of your local enviroment
 extern string myPath = "C:/Users/Legion Y540/Desktop";
 
 TEST(Test1, Create_circular_3D_oject) {
-	/*
-	 * To run the test just change the path argument.
-	 */
 	geometry* geo = new geometry();
 	string message = geo->createGeometry(geometry::shapeType::circle, 10, myPath + "/cylinder.stl");
 	EXPECT_EQ(message, "success");
