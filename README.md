@@ -13,7 +13,7 @@
 
 **TODOs:**
 
-	1. Set to enviroment variables Path the OpenCV and VTK dlls path:
+	1. Set to your enviroment variables Path the OpenCV and VTK dlls path:
 		a. ...Meshing_3D\third_party_libraries\opencv\x64\vc15\bin
 		b. ...Meshing_3D\third_party_libraries\vtk\bin
 	3. Change the "myPath" value in UnitTesting/test.cpp (line:6) with a path of your local enviroment
