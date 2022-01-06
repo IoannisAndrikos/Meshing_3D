@@ -18,5 +18,5 @@
 		b. ...Meshing_3D\third_party_libraries\vtk\bin
 	3. Change the "myPath" value in UnitTesting/test.cpp (line:6) with a path of your local enviroment
 	4. Run tests
-	5. Three 3D objects with the names: cylinder.stl, bar.stl, triangular.stl will be generated in path thah you set.
+	5. Three 3D objects with the names: cylinder.stl, bar.stl, triangular.stl will be generated in path that you set.
 	6. Enjoy
