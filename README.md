@@ -1,4 +1,4 @@
-## Meshing 3D.
+## Meshing 3D
 
 **Projects/components**
 
